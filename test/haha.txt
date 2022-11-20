@@ -1,0 +1,9 @@
+In general, nothing can be said about the relative order of their execution.
+
+Now, let's consider your specific problem. If:
+
+    both processes take a non-trivial amount of time to run, and
+    you're saying that one runs to completion before the other makes any progress, and
+    there are unused CPU cycles, and
+    this happens every time you run the application.
+
