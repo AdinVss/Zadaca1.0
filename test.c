@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int main (void){
     int listenfd=0;
@@ -12,7 +13,8 @@ int main (void){
     struct sockaddr_in serv_addr, client;
     char recvBuff[512];
     char name[100];
-
+    int k=0;
+    char z;
     listenfd= socket(AF_INET, SOCK_STREAM,0);
 
     if (listenfd==-1)
@@ -49,18 +51,19 @@ int main (void){
         conndf= accept(listenfd, (struct sockaddr *)&client, (socklen_t *)&c);
         if(conndf<0)
         {
-            perror("accept failed");
+            perror("Accept failed");
             return 1;
         }
         puts("Connection accepted");
 
-        int forkStatus = fork();
-        
-        if (forkStatus==0)
+        //pid_t forkStatus = fork();
+            //    printf("%d",forkStatus);
+        printf("%d",fork());
+        if (fork()==0)
         {
             int i=0;
             do
-                {
+            {
                 recv(conndf,recvBuff+i,1,0);
             } while(recvBuff[i++]!='\n');
         
@@ -78,8 +81,10 @@ int main (void){
                 fwrite(recvBuff,1,bystesReceived,fp);
             }
             fclose(fp);
+            k=5;
+            _Exit(3);
         }
-        else if (forkStatus>0)
+        else if (fork()>0)
         {
             if (bystesReceived==0)
             {
@@ -90,7 +95,7 @@ int main (void){
                 perror("rec failed.");
             }
         }
-        else if (forkStatus < 0)
+        else 
         {
             printf("Error while creating procces");
             return 1;

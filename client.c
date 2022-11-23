@@ -12,7 +12,8 @@ int main(int argc, char *argv[])
     int bytesRead=0;
     struct sockaddr_in serv_addr;
 
-    if(argc !=2){
+    if(argc !=2)
+    {
         printf(" Wrong number of arguments \n");
         return 1;
     }
@@ -26,8 +27,8 @@ int main(int argc, char *argv[])
     serv_addr.sin_addr.s_addr=INADDR_ANY;
     serv_addr.sin_family=AF_INET;
     serv_addr.sin_port=htons(8888);
-    if (connect(sockfd,(struct sockaddr *)&serv_addr,
-    sizeof(serv_addr))<0)
+    
+    if (connect( sockfd,( struct sockaddr *)&serv_addr, sizeof(serv_addr))<0)
     {
         printf("\n Error: Connection Failed \n");
         return 1;
@@ -37,9 +38,10 @@ int main(int argc, char *argv[])
     FILE *fp;
     puts(argv[1]);
     fp=fopen(argv[1],"rb");
+    
     if (fp==NULL)
     {
-        printf("File open error");
+        printf("Error while opening file");
         return 1;
     }
 
